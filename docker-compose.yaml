@@ -1,0 +1,31 @@
+version: "3"
+
+services: 
+  db: 
+    image: mysql:8.0
+    container_name: wordpress-db
+    restart: always 
+    enviroment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_password
+      MYSQL_ROOT_PASSWORD: root_password
+    networks: #expect a list (2 spaces and - )  -wp-network
+      - wp-network
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress-app 
+    depends_on:
+      - db 
+    ports:
+      - "80:80"
+    restart: always 
+    environment:
+      WORDPRESS_DB_HOST: db:3306 # 3306 is name, same as container ip addres
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_password
+      WORDPRESS_DB_NAME: wordpress
+    networks:
+      - wp-network
+networks:
+  wp-network
