@@ -28,4 +28,4 @@ services:
     networks:
       - wp-network
 networks:
-  wp-network
+  wp-network:
